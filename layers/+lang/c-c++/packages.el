@@ -32,7 +32,7 @@
     realgud
     semantic
     srefactor
-    stickyfunc-enhance
+    ;; stickyfunc-enhance
     ycmd
     xcscope
     ))

@@ -136,6 +136,7 @@ the final step of executing code in `emacs-startup-hook'.")
         (car dotspacemacs-default-font)))))
   ;; spacemacs init
   (setq inhibit-startup-screen t)
+  (reset-font)
   (spacemacs-buffer/goto-buffer)
   (unless (display-graphic-p)
     ;; explicitly recreate the home buffer for the first GUI client

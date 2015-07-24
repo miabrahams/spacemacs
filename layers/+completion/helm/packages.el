@@ -525,8 +525,8 @@ Search for a search tool in the order provided by `dotspacemacs-search-tools'."
         "skB" 'spacemacs/helm-buffers-do-ack-region-or-symbol
         "srb" 'spacemacs/helm-buffers-do-rg
         "srB" 'spacemacs/helm-buffers-do-rg-region-or-symbol
-        "stb" 'spacemacs/helm-buffers-do-pt
-        "stB" 'spacemacs/helm-buffers-do-pt-region-or-symbol
+        ;; "stb" 'spacemacs/helm-buffers-do-pt
+        ;; "stB" 'spacemacs/helm-buffers-do-pt-region-or-symbol
         ;; current file scope
         "ss"  'spacemacs/helm-file-smart-do-search
         "sS"  'spacemacs/helm-file-smart-do-search-region-or-symbol
@@ -565,8 +565,7 @@ Search for a search tool in the order provided by `dotspacemacs-search-tools'."
         "skP" 'spacemacs/helm-project-do-ack-region-or-symbol
         "srp" 'spacemacs/helm-project-do-rg
         "srP" 'spacemacs/helm-project-do-rg-region-or-symbol
-        "stp" 'spacemacs/helm-project-do-pt
-        "stP" 'spacemacs/helm-project-do-pt-region-or-symbol))
+        ))
     :config
     (progn
       (advice-add 'helm-ag--save-results :after 'spacemacs//gne-init-helm-ag)

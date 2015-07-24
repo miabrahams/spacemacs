@@ -164,14 +164,35 @@
         "th" 'image-transform-fit-to-height
         "tw" 'image-transform-fit-to-width
         "ts" 'image-transform-set-scale
-        "tr" 'image-transform-rotation))
-    :config (evilified-state-evilify-map image-mode-map
-              :mode image-mode
-              :bindings
-              "h" 'image-backward-hscroll
-              "j" 'image-next-line
-              "k" 'image-previous-line
-              "l" 'image-forward-hscroll)))
+        "tr" 'image-transform-rotation))))
+
+(defun spacemacs-base/init-hybrid-mode ()
+  (use-package hybrid-mode
+    :config
+    (progn
+      (when (eq 'hybrid dotspacemacs-editing-style) (hybrid-mode))
+      (spacemacs|add-toggle hybrid-mode
+        :status hybrid-mode
+        :on (progn (when (bound-and-true-p holy-mode)
+                     (holy-mode -1))
+                   (hybrid-mode))
+        :off (hybrid-mode -1)
+        :documentation "Globally toggle hybrid mode."
+        :evil-leader "tEh")
+      (spacemacs|diminish hybrid-mode " Ⓔh" " Eh")
+
+      (when (eq 'emacs dotspacemacs-editing-style) (holy-mode))
+      (spacemacs|add-toggle holy-mode
+        :status holy-mode
+        :on (progn (when (bound-and-true-p hybrid-mode)
+                     (hybrid-mode -1))
+                   (holy-mode))
+        :off (holy-mode -1)
+        :documentation "Globally toggle holy mode."
+        :evil-leader "tEe")
+      (spacemacs|diminish holy-mode "᛭ξ᛭" " Ee"))))
+  
+
 
 (defun spacemacs-defaults/init-imenu ()
   (use-package imenu

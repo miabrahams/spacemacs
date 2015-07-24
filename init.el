@@ -20,6 +20,18 @@
 (load-file (concat (file-name-directory load-file-name)
                    "core/core-load-paths.el"))
 
+(add-to-list 'custom-theme-load-path "~/.emacs.d/replace-colorthemes")
+
+(defvar inside-terminal (string= (getenv "TERM") "xterm") "Skip loading slow stuff.")
+
+
+;; Do profiling
+;; (require 'profiler)
+;; (profiler-start 'cpu)
+
+;; (require 'seq)
+;; (require 'cl)
+
 (if (not (version<= spacemacs-emacs-min-version emacs-version))
     (error (concat "Your version of Emacs (%s) is too old. "
                    "Spacemacs requires Emacs version %s or above.")
@@ -33,6 +45,8 @@
     (configuration-layer/load)
     (spacemacs-buffer/display-startup-note)
     (spacemacs/setup-startup-hook)
-    (when dotspacemacs-enable-server
-      (require 'server)
-      (unless (server-running-p) (server-start)))))
+    (require 'server)
+    (unless (server-running-p) (server-start))))
+
+;; (profiler-report)
+;; (profiler-stop)

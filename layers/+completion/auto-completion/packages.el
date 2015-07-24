@@ -11,16 +11,18 @@
 
 (setq auto-completion-packages
       '(
-        auto-yasnippet
-        auto-complete
-        ac-ispell
+	;; auto-yasnippet
+	;; auto-complete
+        ;; ac-ispell
         company
         (company-quickhelp :toggle auto-completion-enable-help-tooltip)
         company-statistics
         fuzzy
         (helm-company :requires helm)
-        (helm-c-yasnippet :requires helm)
-        hippie-exp
+        ;; (helm-c-yasnippet :requires helm)
+        ;; hippie-exp
+        ;; yasnippet
+        ;; auto-yasnippet
         smartparens
         yasnippet
         yasnippet-snippets

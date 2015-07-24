@@ -47,11 +47,28 @@ python-*-docs-html
 /recentf
 .mc-lists.el
 
+
 # Private directory
 private/
 !private/README.md
 !private/snippets/README.md
 !private/local/README.md
+!private/helm-covenant/*
+!private/shellconfig/*
+!private/functions.el
+!private/keybindings.el
+!private/experimental.el
+!private/tweaks.el
+company-statistics-cache.el
 /games/
 /doc/COMMUNITY.org
 /doc/CONTRIBUTING.org
+
+# etc
+irony/bin/irony-server
+rtags/*
+replace-colorthemes*
+irony-mode*
+.directory
+emacs-visited-files
+filesets-cache.el

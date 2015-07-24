@@ -36,7 +36,9 @@ The return value is nil if no font was found, truthy otherwise."
                (fontspec (apply 'font-spec :name font font-props)))
           (spacemacs-buffer/message "Setting font \"%s\"..." font)
           (set-frame-font fontspec nil t)
-          (push `(font . ,(frame-parameter nil 'font)) default-frame-alist)
+          ;; (push `(font . ,(frame-parameter nil 'font)) default-frame-alist)
+          ; (setq-default powerline-scale scale) ;
+          ; (setq-default powerline-height (spacemacs/compute-powerline-height))
           ;; fallback font for unicode characters used in spacemacs
           (pcase system-type
             (`gnu/linux

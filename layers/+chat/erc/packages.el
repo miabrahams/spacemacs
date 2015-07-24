@@ -29,6 +29,8 @@
         erc-yt
         linum
         persp-mode
+        smooth-scrolling
+        znc
         ))
 
 (when (spacemacs/system-is-mac)
@@ -247,3 +249,8 @@
               (erc/default-servers)
             (call-interactively 'erc)))))))
 
+
+(defun erc/init-znc ()
+  (use-package "znc"
+    :defer t
+    :commands znc-erc))

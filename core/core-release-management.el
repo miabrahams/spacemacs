@@ -93,7 +93,7 @@ found."
          (not dotspacemacs-check-for-update))
     (message "Skipping check for new version (reason: dotfile)"))
    ((and (not force)
-         (string-equal "develop" (spacemacs//git-get-current-branch)))
+         (string-equal "dev_squash_again" (spacemacs//git-get-current-branch)))
     (message "Skipping check for new version (reason: develop branch)"))
    ((and (not force)
          (not (spacemacs//can-check-for-new-version-at-startup)))
