@@ -55,9 +55,10 @@ private/
 !private/local/README.md
 !private/helm-covenant/*
 !private/shellconfig/*
+!private/experimental.el
 !private/functions.el
 !private/keybindings.el
-!private/experimental.el
+!private/powershell.el
 !private/tweaks.el
 company-statistics-cache.el
 /games/
