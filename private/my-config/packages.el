@@ -33,18 +33,18 @@
       ;; cmake-font-lock
 
       comment-dwim-2
-      dired-single
-      bookmark+
-      corral
+      ;; dired-single
+      ;; bookmark+
+      ;; corral
       howdoi
       help-mode+
       olivetti
       org2blog
       rtags
 
-      filesets
-      helm-filesets
-      filesets+
+      ;; filesets
+      ;; helm-filesets
+      ;; filesets+
       synonyms
 
       windresize
