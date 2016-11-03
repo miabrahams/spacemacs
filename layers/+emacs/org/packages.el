@@ -307,27 +307,27 @@ Will work on both org-mode and any mode that accepts plain html."
 
       ;; Add global evil-leader mappings. Used to access org-agenda
       ;; functionalities – and a few others commands – from any other mode.
-      (spacemacs/declare-prefix "ao" "org")
+      (spacemacs/declare-prefix "o" "org")
       (spacemacs/set-leader-keys
         ;; org-agenda
-        "ao#" 'org-agenda-list-stuck-projects
-        "ao/" 'org-occur-in-agenda-files
-        "aoa" 'org-agenda-list
-        "aoe" 'org-store-agenda-views
-        "aokg" 'org-clock-goto
-        "aoki" 'org-clock-in-last
-        "aokj" 'org-clock-jump-to-current-clock
-        "aoko" 'org-clock-out
-        "aokr" 'org-resolve-clocks
-        "aol" 'org-store-link
-        "aom" 'org-tags-view
-        "aoo" 'org-agenda
-        "aos" 'org-search-view
-        "aot" 'org-todo-list
+        "o#" 'org-agenda-list-stuck-projects
+        "o/" 'org-occur-in-agenda-files
+        "oa" 'org-agenda-list
+        "oe" 'org-store-agenda-views
+        "okg" 'org-clock-goto
+        "oki" 'org-clock-in-last
+        "okj" 'org-clock-jump-to-current-clock
+        "oko" 'org-clock-out
+        "okr" 'org-resolve-clocks
+        "ol" 'org-store-link
+        "om" 'org-tags-view
+        "oo" 'org-agenda
+        "os" 'org-search-view
+        "ot" 'org-todo-list
         ;; SPC C- capture/colors
         "Cc" 'org-capture
         ;; other
-        "aoc" 'org-capture
+        "oc" 'org-capture
         )
 
       (define-key global-map "\C-cl" 'org-store-link)
