@@ -19,7 +19,7 @@
       ;; flycheck-tip
       systemd
       save-visited-files
-      org-journal
+      ;; org-journal
       cmake-project
       dired+
       avy-zap
@@ -38,14 +38,14 @@
       ;; corral
       howdoi
       help-mode+
-      olivetti
-      org2blog
-      rtags
+      ;; olivetti
+      ;; org2blog
+      ;; rtags
 
       ;; filesets
       ;; helm-filesets
       ;; filesets+
-      synonyms
+      ;; synonyms
 
       windresize
       hideshow
@@ -165,12 +165,6 @@ FN should be either `describe-variable' or `describe-function'."
     :ensure t
     :commands 'systemd-mode))
 
-(defun my-config/init-org-journal ()
-  (use-package "org-journal" :ensure t
-    :commands 'org-journal-new-entry
-    :config
-    (setq-default org-journal-dir (concat dropbox-directory "text/journal"))
-    (global-set-key (kbd "C-c j") 'org-journal-new-entry)))
 
 (defun my-config/init-cmake-project ()
   (use-package "cmake-project" :ensure t
@@ -187,15 +181,15 @@ FN should be either `describe-variable' or `describe-function'."
     :config
     (global-set-key (kbd "M-;") 'comment-dwim-2)))
 
-(defun my-config/init-synonyms ()
-  (use-package "synonyms"
-    :ensure t
-    :commands 'synonyms
-    :config
-    (setq synonyms-file        "~/private/etc/mthesaur.txt")
-    (setq synonyms-cache-file "~/private/etc/synonyms.cache")
-    ;; Define a key here later
-    ))
+;; (defun my-config/init-synonyms ()
+;;   (use-package "synonyms"
+;;     :ensure t
+;;     :commands 'synonyms
+;;     :config
+;;     (setq synonyms-file        "~/private/etc/mthesaur.txt")
+;;     (setq synonyms-cache-file "~/private/etc/synonyms.cache")
+;;     ;; Define a key here later
+;;     ))
 
 (defun my-config/init-howdoi ()
   (use-package "howdoi"

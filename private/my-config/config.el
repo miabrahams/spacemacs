@@ -36,6 +36,11 @@
   :post-config
   (set-face-attribute 'evil-search-highlight-persist-highlight-face nil :background "dim gray"))
 
+(spacemacs|use-package-add-hook org-journal 
+  :post-config
+  (setq-default org-journal-dir (concat dropbox-directory "text/journal"))
+  (global-set-key (kbd "C-c j") 'org-journal-new-entry))
+
 ;; We want this here b/c it runs even in the terminal
 (spacemacs|use-package-add-hook helm
   :post-config
