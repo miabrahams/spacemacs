@@ -144,7 +144,8 @@ currently open, based on `org-agenda-files'."
 
   (defun org-agenda-reschedule-to-today ()
     (interactive)
-    (flet ((org-read-date (&rest rest) (current-time)))
+    (cl-letf (((symbol-function 'org-read-date)
+                (lambda (&rest rest) (current-time))))
       (call-interactively 'org-agenda-schedule)))
 
   (setq-default org-agenda-insert-diary-extract-time t
