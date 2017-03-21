@@ -312,6 +312,10 @@
                                spacemacs//python-default))
       ;; call `spacemacs//python-setup-shell' once, don't put it in a hook
       ;; (see issue #5988)
+
+      (if (spacemacs/system-is-mswindows)
+          (setq python-shell-completion-native-enable nil))
+
       (spacemacs//python-setup-shell))
     :config
     (progn
