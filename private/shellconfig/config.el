@@ -33,6 +33,7 @@
 (setq-default powershell-prompt-regex "@{\\(.*\\)}.*» \\n")
 (add-to-list 'process-coding-system-alist '("[Pp]owershell" cp437 . cp437))
 
+(setq powershell-prompt-regex "@{\\(.*\\)}.*» \\n\\n")
 
 
 ;; (add-to-load-path "~/.emacs.d/private/")
@@ -42,13 +43,6 @@
 (add-hook 'powershell-mode-hook 'powershell/define-text-objects)
 ;; (evil-leader/set-key "asp" 'powershell)
 ;; (evil-leader/set-key-for-mode 'powershell-mode "mrr" 'powershell-regexp-to-regex)
-
-
-;; (defun lets-have-company ()
-  ;; "Turn on Company mode."
-  ;; (interactive)
-  ;; (local-set-key (kbd "C-M-.") #'company-select-next)
-  ;; (local-set-key (kbd "C-M-,") #'company-select-previous))
 
 
 ;; Keybindings
@@ -72,7 +66,8 @@
 (defun my-dirtrack-mode ()
   "Add to shell-mode-hook to use dirtrack mode in my shell buffers."
   (if (spacemacs/system-is-mswindows)
-      (setq-default dirtrack-list (list "@{\\(.*\\)}.*» \\n" 1))
+      ;; (setq-default dirtrack-list (list "^PS \\([a-zA-Z]:.*\\)>" 1))
+      (setq-default dirtrack-list (list "@{\\(.*\\)}.*».*" 1))
     (setq-default dirtrack-list (list "abrahams@ARIES:\\(.*\\)%"  1)))
     ;; (setq-default dirtrack-list (list ".*in \\[33m\\(.*\\)\\[00m.*" 1)))
   (shell-dirtrack-mode nil)
@@ -81,7 +76,23 @@
 (add-hook 'shell-mode-hook 'my-dirtrack-mode)
 ;; (setq-default w32-pipe-read-delay 50)
 
+(defun comint-testing-wtf ()
+  "hi"
+  (message "Completion testing")
+  )
 
+(defun my-powershell-mode-hook ()
+  "Testing"
+  (setq-local comint-dynamic-complete-functions
+              '(comint-testing-wtf
+                comint-replace-by-expanded-history
+                shell-dynamic-complete-environment-variable
+                shell-dynamic-complete-command
+                shell-replace-by-expanded-directory
+                comint-dynamic-complete-filename))
+  )
+
+(add-hook 'powershell-mode-hook 'my-powershell-mode-hook)
 
 ;; (use-package "auto-complete" :ensure t)
 ;; (use-package "readline-complete" :ensure t

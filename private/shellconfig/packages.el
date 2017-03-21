@@ -42,6 +42,7 @@
 
 (defun shellconfig/init-shell-switcher ()
   (use-package "shell-switcher" :ensure t
+    :defer t
     :config
     (defun make-new-shell-buffer ()
       "Create a new `shell'.  Not ready for Eshell just yet."

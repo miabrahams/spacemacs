@@ -152,14 +152,6 @@ FN should be either `describe-variable' or `describe-function'."
 
 
 
-(defun my-config/init-dired+ ()
-  (use-package dired+
-    :config
-    (diredp-toggle-find-file-reuse-dir t)))
-
-(defun my-config/init-help-mode+ ()
-    (use-package "help-mode+" :ensure t))
-
 (defun my-config/init-systemd ()
   (use-package "systemd"
     :ensure t
@@ -168,6 +160,7 @@ FN should be either `describe-variable' or `describe-function'."
 
 (defun my-config/init-cmake-project ()
   (use-package "cmake-project" :ensure t
+    :defer t
     :config
     (defun maybe-cmake-project-hook ()
       (if (file-exists-p "CMakeLists.txt") (cmake-project-mode)))

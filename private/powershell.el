@@ -7,7 +7,7 @@
 ;; Author: Frédéric Perrin <frederic (dot) perrin (arobas) resel (dot) fr>
 ;; URL: http://github.com/jschaf/powershell.el
 ;; Version: 0.3
-;; Package-Requires: ((emacs "24))
+;; Package-Requires: ((emacs "24"))
 ;; Keywords: powershell, languages
 
 ;; This file is NOT part of GNU Emacs.
@@ -80,7 +80,7 @@
 (require 'compile)
 
 ;;;###autoload
-(add-to-list 'auto-mode-alist (cons (purecopy "\\.ps1\\'")  'powershell-mode))
+(add-to-list 'auto-mode-alist '("\\.ps[dm]?1\\'" . powershell-mode))
 
 
 ;; User Variables
@@ -725,9 +725,7 @@ Where <fcn-name> is the name of the function to which <helper string> applies.
     ;; imenu doc says these are buffer-local by default
     (setq imenu-generic-expression powershell-imenu-expression)
     (setq imenu-case-fold-search nil)
-    (imenu-add-menubar-index)
-    (when (require 'which-func nil t)
-      (which-function-mode t))))
+    (imenu-add-menubar-index)))
 
 (when (require 'speedbar nil t)
   (declare-function speedbar-add-supported-extension "speedbar")
@@ -820,18 +818,18 @@ emacs has resized its window.")
 
 (defconst powershell--find-max-window-width-command
   (concat
-  "function _Emacs_GetMaxPhsWindowSize \n"
-  "{\n"
-  "  $rawui = (Get-Host).UI.RawUI\n"
-  "  $mpws_exists = ($rawui | Get-Member | ? "
-  "{$_.Name -eq \"MaxPhysicalWindowSize\"})\n"
-  "  if ($mpws_exists -eq $null) {\n"
-  "    \"210\" | Out-Host\n"
-  "  } else {\n"
-  "    $rawui.MaxPhysicalWindowSize.Width | Out-Host\n"
-  "  }\n"
-  "}\n"
-  "_Emacs_GetMaxPhsWindowSize\n")
+  "function _Emacs_GetMaxPhsWindowSize"
+  " {"
+  " $rawui = (Get-Host).UI.RawUI;"
+  " $mpws_exists = ($rawui | Get-Member | Where-Object"
+  " {$_.Name -eq \"MaxPhysicalWindowSize\"});"
+  " if ($mpws_exists -eq $null) {"
+  " 210"
+  " } else {"
+  " $rawui.MaxPhysicalWindowSize.Width"
+  " }"
+  " };"
+  " _Emacs_GetMaxPhsWindowSize")
   "The powershell logic to determine the max physical window width.")
 
 (defconst powershell--set-window-width-fn-name  "_Emacs_SetWindowWidth"
@@ -847,32 +845,27 @@ set the window width. Intended for internal use only.")
   ;; buffer size first.
 
     (concat  "function " powershell--set-window-width-fn-name
-             "([string] $pswidth)\n"
-             "{\n"
-             ;;"  \"resetting window width to $pswidth\n\" | Out-Host\n"
-             "  $rawui = (Get-Host).UI.RawUI\n"
-             "  # retrieve the values\n"
-             "  $bufsize = $rawui.BufferSize\n"
-             "  $winsize = $rawui.WindowSize\n"
-             "  $cwidth = $winsize.Width\n"
-             "  $winsize.Width = $pswidth \n"
-             "  $bufsize.Width = $pswidth\n"
-             "  if ($cwidth -lt $pswidth) {\n"
-             "    # increase the width\n"
-             "    $rawui.BufferSize = $bufsize\n"
-             "    $rawui.WindowSize = $winsize\n"
-             "  }\n"
-             "  elseif ($cwidth -gt $pswidth) {\n"
-             "    # decrease the width\n"
-             "    $rawui.WindowSize = $winsize\n"
-             "    $rawui.BufferSize = $bufsize\n"
-             "  }\n"
-             "  # destroy variables\n"
-             "  Set-Variable -name rawui -value $null\n"
-             "  Set-Variable -name winsize -value $null\n"
-             "  Set-Variable -name bufsize -value $null\n"
-             "  Set-Variable -name cwidth -value $null\n"
-             "}\n\n")
+             "([string] $pswidth)"
+             " {"
+             " $rawui = (Get-Host).UI.RawUI;"
+             " $bufsize = $rawui.BufferSize;"
+             " $winsize = $rawui.WindowSize;"
+             " $cwidth = $winsize.Width;"
+             " $winsize.Width = $pswidth;"
+             " $bufsize.Width = $pswidth;"
+             " if ($cwidth -lt $pswidth) {"
+             " $rawui.BufferSize = $bufsize;"
+             " $rawui.WindowSize = $winsize;"
+             " }"
+             " elseif ($cwidth -gt $pswidth) {"
+             " $rawui.WindowSize = $winsize;"
+             " $rawui.BufferSize = $bufsize;"
+             " };"
+             " Set-Variable -name rawui -value $null;"
+             " Set-Variable -name winsize -value $null;"
+             " Set-Variable -name bufsize -value $null;"
+             " Set-Variable -name cwidth -value $null;"
+             " }")
 
     "The text of the powershell function that will be used at runtime to
 set the width of the virtual Window in PowerShell, as the Emacs window
@@ -997,13 +990,13 @@ See the help for `shell' for more details.  \(Type
 
   (setq buffer (get-buffer-create (or buffer "*PowerShell*")))
   (powershell-log 1 "powershell starting up...in buffer %s" (buffer-name buffer))
-  (let ((tmp-shellfile explicit-shell-file-name))
+  (let ((explicit-shell-file-name (if (eq system-type 'cygwin)
+				      (cygwin-convert-file-name-from-windows powershell-location-of-exe)
+				    powershell-location-of-exe)))
     ;; set arguments for the powershell exe.
     ;; Does this need to be tunable?
 
-    (setq explicit-shell-file-name powershell-location-of-exe)
-    (shell buffer)
-    (setq explicit-shell-file-name tmp-shellfile))
+    (shell buffer))
 
   ;; (powershell--get-max-window-width "*PowerShell*")
   ;; (powershell-invoke-command-silently (get-buffer-process "*csdeshell*")
@@ -1247,10 +1240,9 @@ Example:
   "Trim the newline from STRING, the prompt that we get back from
 powershell.  This fn is set into the preoutput filters, so the
 newline is trimmed before being put into the output buffer."
-  (if (string-match (concat powershell-prompt-regex "\n*") string)
-      (substring string 0 -1) ;; Remove newlines
-    string))
-
+   (if (string-match (concat powershell-prompt-regex "\n\\'") string)
+       (substring string 0 -1) ;; remove newline
+     string))
 
 (defun powershell-simple-send (proc string)
   "Override of the comint-simple-send function, with logic
