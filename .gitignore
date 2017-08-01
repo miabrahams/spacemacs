@@ -60,6 +60,7 @@ private/
 !private/keybindings.el
 !private/powershell.el
 !private/tweaks.el
+!private/etom.el
 company-statistics-cache.el
 /games/
 /doc/COMMUNITY.org
