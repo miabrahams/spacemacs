@@ -525,8 +525,6 @@ Search for a search tool in the order provided by `dotspacemacs-search-tools'."
         "skB" 'spacemacs/helm-buffers-do-ack-region-or-symbol
         "srb" 'spacemacs/helm-buffers-do-rg
         "srB" 'spacemacs/helm-buffers-do-rg-region-or-symbol
-        ;; "stb" 'spacemacs/helm-buffers-do-pt
-        ;; "stB" 'spacemacs/helm-buffers-do-pt-region-or-symbol
         ;; current file scope
         "ss"  'spacemacs/helm-file-smart-do-search
         "sS"  'spacemacs/helm-file-smart-do-search-region-or-symbol
@@ -541,8 +539,6 @@ Search for a search tool in the order provided by `dotspacemacs-search-tools'."
         "skF" 'spacemacs/helm-files-do-ack-region-or-symbol
         "srf" 'spacemacs/helm-files-do-rg
         "srF" 'spacemacs/helm-files-do-rg-region-or-symbol
-        "stf" 'spacemacs/helm-files-do-pt
-        "stF" 'spacemacs/helm-files-do-pt-region-or-symbol
         ;; current dir scope
         "sd"  'spacemacs/helm-dir-smart-do-search
         "sD"  'spacemacs/helm-dir-smart-do-search-region-or-symbol
@@ -552,8 +548,6 @@ Search for a search tool in the order provided by `dotspacemacs-search-tools'."
         "skD" 'spacemacs/helm-dir-do-ack-region-or-symbol
         "srd" 'spacemacs/helm-dir-do-rg
         "srD" 'spacemacs/helm-dir-do-rg-region-or-symbol
-        "std" 'spacemacs/helm-dir-do-pt
-        "stD" 'spacemacs/helm-dir-do-pt-region-or-symbol
         ;; current project scope
         "/"   'spacemacs/helm-project-smart-do-search
         "*"   'spacemacs/helm-project-smart-do-search-region-or-symbol
