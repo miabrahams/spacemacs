@@ -145,7 +145,21 @@ currently open, based on `org-agenda-files'."
   (defun org-agenda-reschedule-to-today ()
     (interactive)
     (cl-letf (((symbol-function 'org-read-date)
-                (lambda (&rest rest) (current-time))))
+               (lambda (&rest rest) (current-time))))
+      (call-interactively 'org-agenda-schedule)))
+
+  (defun org-agenda-reschedule-to-next-sunday ()
+    (interactive)
+    (cl-letf (((symbol-function 'org-read-date)
+               (lambda (&rest rest)
+                 ;; Compute next sunday
+                 (let* ((ct (decode-time (current-time)))
+                        (dow (car (nthcdr 6 ct)))
+                        (nextsun (- 7 dow)))
+                   ;; Set "day" and "dow"
+                   (setcar (nthcdr 3 ct) (+ nextsun (nth 3 ct)))
+                   (setcar (nthcdr 6 ct) 0)
+                   (apply 'encode-time ct)))))
       (call-interactively 'org-agenda-schedule)))
 
   (setq-default org-agenda-insert-diary-extract-time t
@@ -162,7 +176,8 @@ currently open, based on `org-agenda-files'."
                 org-agenda-use-time-grid nil
                 org-agenda-window-setup (quote current-window)
                 org-confirm-elisp-link-function 'y-or-n-p
-                org-agenda-bulk-custom-functions '((84 org-agenda-reschedule-to-today))
+                org-agenda-bulk-custom-functions '((84 org-agenda-reschedule-to-today)
+                                                   (87 org-agenda-reschedule-to-next-sunday))
                 org-agenda-cmp-user-defined 'my-cmp-todo-state
                 org-agenda-sorting-strategy '((agenda habit-up time-up user-defined-down
                                                       priority-down tag-up category-keep)

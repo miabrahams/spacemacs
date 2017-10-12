@@ -38,7 +38,8 @@
 ;; Wtf?  Note: back-button bindings are defined in `custom-set-variables'
 (global-set-key (kbd "f")         #'self-insert-command)   ;; WTF???
 
-
+(global-set-key (kbd "<C-wheel-up>") 'mwheel-scroll)
+(global-set-key (kbd "<C-wheel-down>") 'mwheel-scroll)
 ;; Unbound things that could use a good owner
 ;; (global-set-key (kbd "C-\\")  #'???)
 ;; (global-set-key [(meta control \;)] ')
