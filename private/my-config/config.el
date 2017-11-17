@@ -41,6 +41,12 @@
   (setq-default org-journal-dir (concat dropbox-directory "text/journal"))
   (global-set-key (kbd "C-c j") 'org-journal-new-entry))
 
+
+;; specify font for all unicode characters
+(when (member "Symbola" (font-family-list))
+  (set-fontset-font t 'unicode "Symbola" nil 'prepend))
+
+
 ;; We want this here b/c it runs even in the terminal
 (spacemacs|use-package-add-hook helm
   :post-config
@@ -68,8 +74,6 @@
 (spacemacs|use-package-add-hook expand-region
   :post-config
   (global-set-key (kbd "C-'") 'er/expand-region))
-
-
 
 (spacemacs|use-package-add-hook hl-todo
   :post-config
@@ -234,9 +238,9 @@ currently open, based on `org-agenda-files'."
                              ("w" "org-protocol" entry (file org-default-notes-file)
                               "* From Org-Protocol: %c\n%U\n" :immediate-finish t)
                              )))
-  
+
   (push '("\\`CAPTURE-" . insert) evil-buffer-regexps)
-  
+
 
   (defun my-org-mode-hook ()
     "Fix back-button-mode bindings conflicting with org-mode."
@@ -299,7 +303,7 @@ current HH:MM time."
     (prettify-symbols-mode)
     (define-key c++-mode-map (kbd "<C-return>") #'c-indent-new-comment-line)
     (message "KDE-C++ mode loaded! <3"))
-  
+
   (add-hook 'c-mode-common-hook #'kde-c++-mode-init)
   (add-hook 'c-mode-common-hook #'kde-c++-mode-init)
   (add-hook 'c++-mode-hook #'kde-c++-mode-init)
