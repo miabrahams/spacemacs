@@ -194,8 +194,7 @@
 
 (setq helm-source-apps
   `((name . "Applications")
-    (candidates . (("org-capture" . (lambda () (org-capture nil )))
-                   ("Notes.org" . (lambda () (switch-to-buffer "notes.org")))
+    (candidates . (("Macrobat.net" . (lambda () (dired "/macrobat.net:/var/www/macrobat.net/public_html/")))
                    ("Pomodoro" . #'org/init-org-pomodoro)
                    ("Shell" .
                     ,(helm-switch-buffer-or-start
@@ -269,6 +268,10 @@
 (defun helm-omni (&rest arg)
   "Helm interface to my favorite places, which includes apps, locations, project files and bookmarks"
   (interactive)
+  (require 'helm-x-files)
+  (unless helm-source-buffers-list
+    (setq helm-source-buffers-list
+          (helm-make-source "Buffers" 'helm-source-buffers)))
   (helm :sources (append
                   (list
                    helm-source-apps
