@@ -100,6 +100,7 @@
   ;; http://orgmode.org/manual/Capture-templates.html#Capture-templates
   ;; For Chrome extension :D
   ;; (require 'org-protocol)
+  ;; NOTE: This is probably broken after changing the capture key to "p" from "w"
 
   :post-config
   (defun my/save-all-agenda-buffers ()
@@ -219,23 +220,32 @@ currently open, based on `org-agenda-files'."
         (notes-file (concat dropbox-directory "text/notes.org"))
         (concepts-file (concat dropbox-directory "text/creative/concepts.org")))
     (setq-default
-     org-capture-templates `(("t" "Todo item" entry (file+headline ,todo-file "Todo Items")
+     org-capture-templates `(("t" "Todo item" entry
+                              (file+headline ,todo-file "Todo Items")
                               "** TODO %? \nSCHEDULED: %t\n%i" :empty-lines 1)
-                             ("T" "Scheduled Todo" entry (file+headline ,todo-file "Todo Items")
+                             ("T" "Scheduled Todo" entry
+                              (file+headline ,todo-file "Todo Items")
                               "** TODO %? \n SCHEDULED: %^t%i" :empty-lines 1)
-                             ("r" "Research" entry (file+headline ,work-file "Uncategorized")
+                             ("w" "Work" entry
+                              (file+headline ,work-file "Todo")
                               "** TODO %? \n SCHEDULED: %t\n%i" :empty-lines 1)
-                             ("m" "Message" entry (file+headline ,notes-file "Messages")
+                             ("m" "Message" entry
+                              (file+headline ,notes-file "Messages")
                               "** BLANK %? \nSCHEDULED: %t\n" :empty-lines 2)
-                             ("n" "Note" entry (file org-default-notes-file)
+                             ("n" "Note" entry
+                              (file org-default-notes-file)
                               "* %^{Subject} :NOTE:\n%i\n%a%?" :empty-lines 1)
-                             ("c" "Capture" entry (file+headline org-default-notes-file "Notes")
+                             ("c" "Capture" entry
+                              (file+headline org-default-notes-file "Notes")
                               "* %?\n\n  Source: %u, %c\n\n  %i" :empty-lines 1)
-                             ("f" "Creative Concept" entry (file+headline ,concepts-file "Uncategorized")
+                             ("f" "Creative Concept" entry
+                              (file+headline ,concepts-file "Uncategorized")
                               "*  %?\n" :empty-lines 1)
-                             ("l" "Links" item (file+headline org-default-notes-file "Temporary Links")
+                             ("l" "Links" item
+                              (file+headline org-default-notes-file "Temporary Links")
                               "%^{Description}" :empty-lines 1 :immediate-finish t)
-                             ("w" "org-protocol" entry (file org-default-notes-file)
+                             ("p" "org-protocol" entry
+                              (file org-default-notes-file)
                               "* From Org-Protocol: %c\n%U\n" :immediate-finish t)
                              )))
 
