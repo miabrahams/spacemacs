@@ -179,6 +179,8 @@ currently open, based on `org-agenda-files'."
                   (search . " %i %-12:c"))
                 org-agenda-todo-keyword-format "%-5s"
                 org-agenda-use-time-grid nil
+                org-agenda-skip-unavailable-files t
+                org-agenda-span 'day
                 org-agenda-window-setup (quote current-window)
                 org-confirm-elisp-link-function 'y-or-n-p
                 org-agenda-bulk-custom-functions '((84 org-agenda-reschedule-to-today)
@@ -213,6 +215,39 @@ currently open, based on `org-agenda-files'."
                   (wl . wl-other-frame))
                 )
 
+  ;; From Aaron Bieber
+  (defun air-org-skip-subtree-if-priority (priority)
+    "Skip an agenda subtree if it has a priority of PRIORITY.\
+PRIORITY may be one of the characters ?A, ?B, or ?C."
+    (let ((subtree-end (save-excursion (org-end-of-subtree t)))
+          (pri-value (* 1000 (- org-lowest-priority priority)))
+          (pri-current (org-get-priority (thing-at-point 'line t))))
+      (if (= pri-value pri-current)
+          subtree-end
+        nil)))
+
+  (defun air-org-skip-subtree-if-habit ()
+    "Skip an agenda entry if it has a STYLE property equal to \"habit\"."
+    (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+      (if (string= (org-entry-get nil "STYLE") "habit")
+          subtree-end
+        nil)))
+
+  (setq org-agenda-custom-commands
+        '(("d" "Daily agenda and all TODOs"
+           ((agenda "" ((org-agenda-ndays 1)))
+            (alltodo ""
+                     ((org-agenda-skip-function '(or (air-org-skip-subtree-if-habit)
+                                                     (org-agenda-skip-if nil '(scheduled deadline))))
+                      (org-agenda-overriding-header "Unscheduled tasks"))))
+           )))
+
+  (defun my-daily-org-agenda ()
+    (interactive)
+    "Daily org agenda"
+    (org-agenda nil "d"))
+  (evil-leader/set-key "oa" 'my-daily-org-agenda)
+
   (add-to-list 'org-modules 'org-habit)
 
   (let ((todo-file (concat dropbox-directory "text/org/todo.org"))
@@ -220,12 +255,13 @@ currently open, based on `org-agenda-files'."
         (notes-file (concat dropbox-directory "text/notes.org"))
         (concepts-file (concat dropbox-directory "text/creative/concepts.org")))
     (setq-default
+     ;; At some point, figure out how to do unscheduled view?
      org-capture-templates `(("t" "Todo item" entry
                               (file+headline ,todo-file "Todo Items")
-                              "** TODO %? \nSCHEDULED: %t\n%i" :empty-lines 1)
-                             ("T" "Scheduled Todo" entry
+                              "** TODO %? \nSCHEDULED: %t" :empty-lines 1)
+                             ("T" "Unscheduled todo" entry
                               (file+headline ,todo-file "Todo Items")
-                              "** TODO %? \n SCHEDULED: %^t%i" :empty-lines 1)
+                              "** TODO %?%i" :empty-lines 1)
                              ("w" "Work" entry
                               (file+headline ,work-file "Todo")
                               "** TODO %? \n SCHEDULED: %t\n%i" :empty-lines 1)
