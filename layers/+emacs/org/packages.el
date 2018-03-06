@@ -25,6 +25,7 @@
         (org-brain :toggle (version<= "25" emacs-version))
         (org-expiry :location built-in)
         (org-journal :toggle org-enable-org-journal-support)
+        (org-protocol :location built-in)
         org-download
         org-mime
         org-pomodoro
