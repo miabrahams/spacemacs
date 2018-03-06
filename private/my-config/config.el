@@ -95,12 +95,19 @@
 
 
 (spacemacs|use-package-add-hook "org"
-  ;; :pre-init
+  ;; Emacs doesn't understand org-protocol:// filenames without this.
+  ;; Note: I deleted org-protocol.el/elc in my c:\bin\emacs installation.
+  ;; Not sure this is necessary.
+
+  ;; This works for me:
+  ;; C:\bin\emacs\bin\emacsclientw.exe "org-protocol:/capture?template=p&link=aaaa&title=TITLE&body=BODY"
+  :pre-init
+  (require 'org-protocol)
+  ;; (package-initialize)
   ;; http://www.howardism.org/Technical/Emacs/journaling-org.html
   ;; http://orgmode.org/manual/Capture-templates.html#Capture-templates
   ;; For Chrome extension :D
-  ;; (require 'org-protocol)
-  ;; NOTE: This is probably broken after changing the capture key to "p" from "w"
+
 
   :post-config
   (defun my/save-all-agenda-buffers ()
@@ -277,13 +284,13 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
                              ("f" "Creative Concept" entry
                               (file+headline ,concepts-file "Uncategorized")
                               "*  %?\n" :empty-lines 1)
-                             ("l" "Links" item
-                              (file+headline org-default-notes-file "Temporary Links")
-                              "%^{Description}" :empty-lines 1 :immediate-finish t)
-                             ("p" "org-protocol" entry
-                              (file org-default-notes-file)
-                              "* From Org-Protocol: %c\n%U\n" :immediate-finish t)
-                             )))
+                             ("p" "Protocol" entry
+                              (file+headline org-default-notes-file "Notes")
+                              "** %?   %:annotation \n%i\n" :empty-lines 1)
+                             ("L" "Protocol Link" entry
+                              (file+headline org-default-notes-file "Org-capture links")
+                              "** %?[[%:link][%:description]] %U\n"
+                              :empty-lines 1 :immediate-finish t))))
 
   (push '("\\`CAPTURE-" . insert) evil-buffer-regexps)
 
