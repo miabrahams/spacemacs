@@ -33,19 +33,17 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   ;; '(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     helm
      ;; auto-completion
      ;; better-defaults
-     emacs-lisp
+     ;; emacs-lisp
      ;; git
      ;; markdown
-     neotree
      ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -53,8 +51,34 @@ This function should only modify configuration layer settings."
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
+     ;; )
+   '(auto-completion
+     better-defaults
+     markdown
+     python
+     javascript
+     html
+     emacs-lisp
+     ;; (c-c++ :variables
+     ;;        c-c++-default-mode-for-headers 'c++-mode)
+     shell
+     shell-scripts
+     spacemacs-layouts
+     windows-scripts
+     python
+     (org :variables
+          org-enable-org-journal-support t)
+     windows-scripts
+     no-dots
+     my-config
+     emoji
+     (git :variables
+          git-enable-github-support t
+          git-gutter-use-fringe t
+          git-use-magit-next t)
+     helm-covenant
+     shellconfig
      )
-
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -68,8 +92,21 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
-
+   dotspacemacs-excluded-packages
+   (append
+    `(ispell
+      paradox   ;; Seems a little bit busted
+      flyspell
+      evil-jumper
+      vi-tilde-fringe
+      fill-column-indicator)
+    (if inside-terminal
+        `(back-button
+          undo-tree
+          save-visited-files
+          ws-butler
+          flycheck-tip
+          corral)))
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and deletes any unused
@@ -77,7 +114,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -108,7 +145,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
    ;; latest version of packages from MELPA. (default nil)
-   dotspacemacs-use-spacelpa nil
+   dotspacemacs-use-spacelpa t
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
    ;; (default nil)
@@ -131,11 +168,10 @@ It should only modify the values of Spacemacs settings."
    ;; with `:variables' keyword (similar to layers). Check the editing styles
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
-   dotspacemacs-editing-style 'vim
+   dotspacemacs-editing-style 'hybrid
 
-   ;; If non-nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
-
+   ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
+   dotspacemacs-verbose-loading 1
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
    ;; banner, `random' chooses a random text banner in `core/banners'
@@ -151,6 +187,7 @@ It should only modify the values of Spacemacs settings."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
    dotspacemacs-startup-lists '((recents . 5)
+                                (bookmarks . 10)
                                 (projects . 7))
 
    ;; True if the home buffer should respond to resize events. (default t)
@@ -166,8 +203,13 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(apropospriate-dark
+                         material
+                         spacemacs-dark
+                         solarized-dark
+                         solarized-light
+                         leuven
+                         monokai )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `vim-powerline' and `vanilla'. The first three
@@ -184,17 +226,20 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+   dotspacemacs-default-font `("Source Code Pro"
+                               :size
+                               ,(if (string= system-type "windows-nt")
+                                    10 13)
                                :weight normal
-                               :width normal)
-
+                               :width normal
+                               :powerline-scale 2.6)
    ;; The leader key (default "SPC")
+   ;; The leader key
    dotspacemacs-leader-key "SPC"
 
    ;; The key used for Emacs commands `M-x' (after pressing on the leader key).
    ;; (default "SPC")
-   dotspacemacs-emacs-command-key "SPC"
+   dotspacemacs-emacs-command-key ":"
 
    ;; The key used for Vim Ex commands (default ":")
    dotspacemacs-ex-command-key ":"
@@ -382,7 +427,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
@@ -434,6 +479,19 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  ;; Fix the DPI as quickly as possible
+  (defun resize-font (x)
+    "Scales font for nice viewing on my home monitor, with message.  X: font size in points."
+    (interactive "nNew font size: " )
+    (set-face-attribute 'default nil :height (* 10 x)))
+  (defun reset-font (&optional x)
+    "Reset font to the .spacemacs defined size.  X is there to allow this to take an argument."
+    (interactive)
+    (resize-font (plist-get (cdr dotspacemacs-default-font) :size)))
+  (add-hook 'after-make-frame-functions 'reset-font)
+  (add-to-list 'default-frame-alist `(size . ,(plist-get (cdr dotspacemacs-default-font) :size)))
+
+  (defvar dropbox-directory "c:/Dropbox/")
   )
 
 (defun dotspacemacs/user-config ()
@@ -442,6 +500,16 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (add-to-list 'load-path "~/.emacs.d/private")
+  (with-demoted-errors "functions.el failed to load: %s" (load "functions.el"))
+  (with-demoted-errors "keybindings.el failed to load: %s" (load "keybindings.el"))
+  (with-demoted-errors "tweaks.el failed to load: %s" (load "tweaks.el"))
+  (with-demoted-errors "experimental.el failed to load: %s" (load "experimental.el"))
+  (toggle-frame-fullscreen)
+  (org-agenda-list)
+
+  (setq ein:jupyter-default-server-command "C:/Users/miabr/AppData/Local/Programs/Python/Python36-32/Scripts/jupyter.exe")
+  (setq ein:jupyter-default-notebook-directory "C:/Dropbox/Papers")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
