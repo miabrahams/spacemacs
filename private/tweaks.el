@@ -36,7 +36,7 @@
               expand-region-skip-whitespace nil
               global-aggressive-indent-mode nil
               global-auto-revert-ignore-modes (quote (ninja-mode))
-              global-hl-line-mode -1
+              global-hl-line-mode nil
               helm-move-to-line-cycle-in-source t
               help-window-select t
               hs-hide-comments-when-hiding-all nil
@@ -65,7 +65,7 @@
               tool-bar-mode nil
               tramp-default-method "ssh"
               undo-tree-auto-save-history nil
-              undo-tree-mode-lighter " ΰ"
+              undo-tree-mode-lighter " u"
               warning-suppress-types (quote (undo discard-info))
 
               sml/replacer-regexp-list '(("^~/org/" ":Org:")
@@ -118,14 +118,15 @@
 
 
 ;; Prettify-symbols
-(setq prettify-symbols-alist
-      '(("lambda" . 955)  ; λ
-        ("->" . 8594)     ; →
-        ("=>" . 8658)     ; ⇒
-        ("map" . 8614)    ; ↦
-        ))
-(add-to-list 'lisp-mode-hook (lambda () (prettify-symbols-mode)))
-(add-to-list 'emacs-lisp-mode-hook (lambda () (prettify-symbols-mode) (setq mode-name "λ")))
+;; Use lambda instead of text lambda
+;; (setq prettify-symbols-alist
+;;       '(("lambda" . 955)  ; λ
+;;         ("->" . 8594)     ; →
+;;         ("=>" . 8658)     ; ⇒
+;;         ("map" . 8614)    ; ↦
+;;         ))
+;; (add-to-list 'lisp-mode-hook (lambda () (prettify-symbols-mode)))
+;; (add-to-list 'emacs-lisp-mode-hook (lambda () (prettify-symbols-mode) (setq mode-name "λ")))
 
 
 (spacemacs|define-custom-layout "krita"
