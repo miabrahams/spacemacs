@@ -36,11 +36,7 @@
   :post-config
   (set-face-attribute 'evil-search-highlight-persist-highlight-face nil :background "dim gray"))
 
-(spacemacs|use-package-add-hook org-journal 
-  :post-config
-  (setq-default org-journal-dir (concat dropbox-directory "text/journal"))
-  (global-set-key (kbd "C-c j") 'org-journal-new-entry))
-
+(setq org-journal-dir (concat dropbox-directory "text/journal"))
 
 ;; specify font for all unicode characters
 (when (member "Symbola" (font-family-list))
