@@ -173,6 +173,7 @@ currently open, based on `org-agenda-files'."
   (setq-default org-agenda-insert-diary-extract-time t
                 org-agenda-include-diary t
                 org-agenda-restore-windows-after-quit nil
+                org-startup-truncated nil
                 org-agenda-start-on-weekday 0
                 org-agenda-prefix-format
                 '((agenda . " %i %-9:c[%+2e] %?-12t")
@@ -300,8 +301,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
       (define-key newmap (kbd "<M-right>") nil)
       (make-local-variable 'minor-mode-overriding-map-alist)
       (push `(back-button-mode . ,newmap) minor-mode-overriding-map-alist))
-    ;; Why???
-    (visual-line-mode)
+    (setq-local word-wrap 1)
     (set-face-attribute 'org-habit-alert-future-face nil :background "brown3")
     (set-face-attribute 'org-todo nil :background nil)
     (set-face-attribute 'org-habit-alert-future-face nil :inherit 'org-habit-alert-face)
