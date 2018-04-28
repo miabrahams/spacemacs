@@ -2,6 +2,9 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+;; Run this from the Dropbox repo once in a while:
+;; git push miabrahams dev_squash_again:develop --force
+
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
