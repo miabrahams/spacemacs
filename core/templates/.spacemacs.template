@@ -21,7 +21,7 @@ This function should only modify configuration layer settings."
    ;; installation feature and you have to explicitly list a layer in the
    ;; variable `dotspacemacs-configuration-layers' to install it.
    ;; (default 'unused)
-   dotspacemacs-enable-lazy-installation 'unused
+   dotspacemacs-enable-lazy-installation 'nil
 
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
@@ -34,53 +34,39 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   ;; '(
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     ;; auto-completion
-     ;; better-defaults
-     ;; emacs-lisp
-     ;; git
-     ;; markdown
-     ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; spell-checking
-     ;; syntax-checking
-     ;; version-control
-     ;; )
-   '(auto-completion
+   '(
+     auto-completion
      better-defaults
      markdown
-     python
-     javascript
-     html
+     emoji
      emacs-lisp
-     ;; (c-c++ :variables
-     ;;        c-c++-default-mode-for-headers 'c++-mode)
+     python ; anaconda-mode disabled for faster load times. Fix this for completion.
+     javascript
      shell
      shell-scripts
-     spacemacs-layouts
      windows-scripts
-     python
-     (org :variables
-          org-enable-org-journal-support t)
-     windows-scripts
+     vimscript
      no-dots
-     my-config
-     emoji
-     (git :variables
-          git-enable-github-support t
-          git-gutter-use-fringe t
-          git-use-magit-next t)
-     helm-covenant
-     emoji
+     spacemacs-layouts
      shellconfig
+     my-config
+     helm-covenant
+     (org :variables org-enable-org-journal-support t)
+     (git :variables git-enable-github-support t
+          git-gutter-use-fringe t git-use-magit-next t)
+     ;; html
+     ;; (c-c++ :variables c-c++-default-mode-for-headers 'c++-mode)
      )
+
+   ;; List of additional packages that will be installed without being
+   ;; wrapped in a layer. If you need some configuration for these
+   ;; packages, then consider creating a layer. You can also put the
+   ;; configuration in `dotspacemacs/user-config'.
+   ;; To use a local version of a package, use the `:location' property:
+   ;; '(your-package :location "~/path/to/your-package/")
+   ;; Also include the dependencies as they will not be resolved automatically.
+   dotspacemacs-additional-packages '()
+
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -97,13 +83,26 @@ This function should only modify configuration layer settings."
    dotspacemacs-excluded-packages
    (append
     `(ispell
-      paradox   ;; Seems a little bit busted
+      paradox   ;; Busted
       flyspell
       evil-jumper
       hl-line-mode
       vi-tilde-fringe
       org-bullets
-      fill-column-indicator)
+      yasnippet
+      yasnippet-snippets
+      fill-column-indicator
+      ;; Python
+      anaconda-mode
+      company-anaconda
+      anaconda-eldoc
+      lsp-python
+      cython-mode
+      importmagic
+      ;; Javascript
+      tern
+      company-tern
+      )
     (if inside-terminal
         `(back-button
           undo-tree
@@ -111,6 +110,7 @@ This function should only modify configuration layer settings."
           ws-butler
           flycheck-tip
           corral)))
+
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and deletes any unused
