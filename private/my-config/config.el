@@ -317,7 +317,11 @@ current HH:MM time."
 
   (add-hook 'org-mode-hook 'my-org-mode-hook)
 
-  (add-hook 'org-agenda-mode-hook 'spacemacs/disable-hl-line-mode)
+  (defun my-org-agenda-mode-hook ()
+    "Set up org-agenda mode"
+    (spacemacs/disable-hl-line-mode)
+    (setq-local truncate-lines 1))
+  (add-hook 'org-agenda-mode-hook 'my-org-agenda-mode-hook)
 
   (define-key org-mode-map [(control tab)] nil)
   (define-key org-mode-map (kbd "C-c d") #'org-schedule)
