@@ -25,7 +25,7 @@
         (org-brain :toggle (version<= "25" emacs-version))
         (org-expiry :location built-in)
         (org-journal :toggle org-enable-org-journal-support)
-        (org-protocol :location built-in)
+        ;; (org-protocol :location built-in)
         org-download
         org-mime
         org-pomodoro
@@ -45,6 +45,10 @@
 
 (defun org/post-init-company-emoji ()
   (spacemacs|add-company-backends :backends company-emoji :modes org-mode))
+
+;; (defun org/init-org-protocol()
+;;   (use-package org-protocol
+;;     :defer t))
 
 (defun org/post-init-emoji-cheat-sheet-plus ()
   (add-hook 'org-mode-hook 'spacemacs/delay-emoji-cheat-sheet-hook))

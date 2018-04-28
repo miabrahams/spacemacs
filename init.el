@@ -25,8 +25,10 @@
 
 (defvar inside-terminal (string= (getenv "TERM") "xterm") "Skip loading slow stuff.")
 
+;; Spacemacs profiling
+;; C:\bin\emacs\bin\runemacs.exe --debug-init --timed-requires
 
-;; Do profiling
+;; Internal profiling
 ;; (require 'profiler)
 ;; (profiler-start 'cpu)
 

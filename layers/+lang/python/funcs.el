@@ -32,15 +32,19 @@
 
 (defun spacemacs//python-setup-anaconda ()
   "Setup anaconda backend."
+  (when (configuration-layer/package-used-p 'anaconda-mode)
   (anaconda-mode)
   (add-to-list 'spacemacs-jump-handlers-python-mode
                '(anaconda-mode-find-definitions :async t)))
+  )
 
 (defun spacemacs//python-setup-anaconda-company ()
   "Setup anaconda auto-completion."
+  (when (configuration-layer/package-used-p 'anaconda-mode)
   (spacemacs|add-company-backends
     :backends company-anaconda
     :modes python-mode)
+  )
   (company-mode))
 
 (defun spacemacs//python-setup-anaconda-eldoc ()
